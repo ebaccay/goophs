@@ -11,11 +11,20 @@ export default class App extends React.Component {
     super(props);
     this.GoogleAuth = null;
   }
-  
+  getInfo=(e)=>{
+    console.log(e);
+    this.help();
+  }
+  help(){
+    console.log(this.gapi.googleGetBasicProfile());
+  }
   render(){
     return (
-      <GoogleAPI clientId="901297815426-h7npjpvqnk4480lg949fs1u2um7trcph.apps.googleusercontent.com"
-            onUpdateSigninStatus={Function}
+      <GoogleAPI 
+            ref={ref => this.gapi = ref} 
+            clientId="901297815426-h7npjpvqnk4480lg949fs1u2um7trcph.apps.googleusercontent.com"
+            onUpdateSigninStatus={this.getInfo}
+            onLoginSuccess={this.getInfo}
             onInitFailure={Function} >
          	<div className="App" style={styles.app}>
            <div><GoogleLogin /></div>
