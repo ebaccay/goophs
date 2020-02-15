@@ -235,3 +235,7 @@ def phile_upload(filename, key):
         upload_phile(final_phile)
 
     return philes
+
+
+def main():
+    pass
