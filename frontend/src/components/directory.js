@@ -27,7 +27,7 @@ export default class Directory extends React.Component {
                         <Directory key={index} name={item.name}/>
                     ))}
                 </ul>
-                <ul>
+                <ul style={styles.Files}>
                     {this.state.files.map((item, index) => (
                         <File key={index} name={item.name}/>
                     ))}
@@ -38,8 +38,9 @@ export default class Directory extends React.Component {
 }
 let styles = {
     Directories: {
+        listStyleType: 'none',
     },
     Files: {
-        
+        listStyleType: 'none',
     }
 }

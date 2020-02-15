@@ -10,12 +10,15 @@ export default class File extends React.Component {
     }
     componentDidMount(props){
     }
+    download = () =>{
+        console.log("downloading");
+    }
     render(){
         return (
-            <li >
+            <li style={styles.File}>
                 <div>
                     <p>{this.props.name}</p>
-                    <a>Download</a>
+                    <a href="#" onClick={this.download}>Download</a>
                 </div>
             </li>
         )
@@ -23,5 +26,8 @@ export default class File extends React.Component {
 }
 
 let styles={
-    
+    File: {
+        borderTop: '1px solid',
+        paddingBottom: '10px'
+    }
 }
