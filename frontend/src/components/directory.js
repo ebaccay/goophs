@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import UploadMenu from './upload-menu';
 import File from './file';
 import { Route, Link, BrowserRouter as Router } from 'react-router-dom'
+import Store from '../store';
 
 var test = {
     f1: {
@@ -27,6 +28,7 @@ export default class Directory extends React.Component {
             directories: [],
             files: [],
         }
+        this.store = new Store();
     }
     componentDidMount(){
     }
@@ -40,15 +42,15 @@ export default class Directory extends React.Component {
             
                 <div style={styles.FileMenu}>
                     {/* <UploadMenu files={this.getFiles} user={this.props.user}/> */}
-                    <ul style={styles.Directories}>
+                    {/* <ul style={styles.Directories}>
                         {this.props.directories.map((item, index) => (
                             // <Directory key={index} name={item.name}/>
                         <Link key={index} to={`/+${item.name}`}>{item.name}</Link>
                         // <Route path={`/:itemName/:topicId`} component={Directory}/>
                         ))}
-                    </ul>
+                    </ul> */}
                     <ul style={styles.Files}>
-                        {this.props.files.map((item, index) => (
+                        {this.store.fetchFiles().map((item, index) => (
                             <File key={index} name={item.name}/>
                         ))}
                     </ul>

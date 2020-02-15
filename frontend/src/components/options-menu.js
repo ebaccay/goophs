@@ -11,38 +11,42 @@ export default class OptionsMenu extends React.Component {
     constructor(props){
         super(props);
         this.state = {
-            
         }
     }
     sendClick = (o) => {
         this.props.goTo(o);
     }
+
+    componentDidMount(){
+    
+    }
+    getInfo=(e)=>{
+      console.log(e);
+      this.help();
+    }
+
     render(){
         return (
-            <div style={styles.Sidebar}>
-                <div style={styles.ImageWrap}>
-                <img style={styles.TreehacksLogo} src={TreehacksLogo}></img>
-                <img style={styles.SmallLogo} src={BearLogo}></img>
+                <div style={styles.Sidebar}>
+                    <div style={styles.ImageWrap}>
+                    <img style={styles.TreehacksLogo} src={TreehacksLogo}></img>
+                    <img style={styles.SmallLogo} src={BearLogo}></img>
+                    </div>
+                    
+                    <div style={styles.Links}>
+                    <Router>   
+                            <ul style={styles.NavList}>
+                                <li><Link to="/upload" style={styles.Page} href="#Home">Upload</Link></li>
+                                <li><Link to="/files" style={styles.Page} href="#Files">My Files</Link></li>
+                                <li><Link to="/info" style={styles.Page} href="#Info">Info</Link></li>
+                            </ul>
+                            
+                            <Route path="/upload" component={UploadMenu} />
+                            <Route path="/files" component={Directory} />
+                            <Route path="/info" component={Info} />
+                    </Router>
+                    </div>
                 </div>
-                
-                 <div style={styles.Links}>
-                 <Router>   
-                        <ul style={styles.NavList}>
-                        {/* <li><Link to="/login" style={styles.Page} href="#login">Upload</Link></li> */}
-                            <li><Link to="/" style={styles.Page} href="#Home">Upload</Link></li>
-                            <li><Link to="/files" style={styles.Page} href="#Files">My Files</Link></li>
-                            <li><Link to="/info" style={styles.Page} href="#Info">Info</Link></li>
-                        </ul>
-                        {/* <Route exact path="/login" component={UploadMenu} /> */}
-                        <Route path="/" component={UploadMenu} />
-                        <Route path="/files" component={Directory} />
-                        <Route path="/info" component={Info} />
-                </Router>
-                 </div>
-                 
-                 
-               
-            </div>
         )
     }
 }
@@ -52,6 +56,8 @@ let styles = {
         width: '300px',
         backgroundColor: 'rgba(185, 185, 142, 0.7)',
         height: '100%',
+        display: 'flex',
+        flexDirection: 'column',
     },
     NavList:{
         listStyleType: 'none',
@@ -66,6 +72,7 @@ let styles = {
     SmallLogo: {
         width: '60px',
         height: '40px',
+        borderBottom: '2px solid green',
     },
     Links: {
         height: '100%',
