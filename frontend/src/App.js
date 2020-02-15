@@ -15,7 +15,6 @@ export default class App extends React.Component {
   
   render(){
     return (
-
       <GoogleAPI clientId="901297815426-h7npjpvqnk4480lg949fs1u2um7trcph.apps.googleusercontent.com"
             onUpdateSigninStatus={Function}
             onInitFailure={Function} >
