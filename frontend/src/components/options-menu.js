@@ -28,12 +28,13 @@ export default class OptionsMenu extends React.Component {
                  <div style={styles.Links}>
                  <Router>   
                         <ul style={styles.NavList}>
-                            <li><Link to="/upload" style={styles.Page} href="#Home">Upload</Link></li>
+                        {/* <li><Link to="/login" style={styles.Page} href="#login">Upload</Link></li> */}
+                            <li><Link to="/" style={styles.Page} href="#Home">Upload</Link></li>
                             <li><Link to="/files" style={styles.Page} href="#Files">My Files</Link></li>
                             <li><Link to="/info" style={styles.Page} href="#Info">Info</Link></li>
                         </ul>
-                        
-                        <Route path="/upload" component={UploadMenu} />
+                        {/* <Route exact path="/login" component={UploadMenu} /> */}
+                        <Route path="/" component={UploadMenu} />
                         <Route path="/files" component={Directory} />
                         <Route path="/info" component={Info} />
                 </Router>
