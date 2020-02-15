@@ -4,7 +4,7 @@ export default class OptionsMenu extends React.Component {
 
     constructor(props){
         super(props);
-        let state = {
+        this.state = {
             
         }
     }
@@ -22,6 +22,15 @@ export default class OptionsMenu extends React.Component {
 
 let styles = {
     optionsList : {
-        background: 'red'
+        // background: 'grey',
+        // width: '40%',
+        // height: '100%',
+        width: '25%',
+    position: 'fixed',
+    top: 0,
+    left: 0,
+    height: '100vh',
+    zindex: '999',
+    background: 'whitesmoke',
     }
 }
