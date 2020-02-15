@@ -15,6 +15,7 @@ export default class UploadMenu extends React.Component {
         this.setState({files: this.pond.getFiles()});
         console.log(this.state.files);  
         this.props.files(this.state.files); 
+        // grab api key and file data and send to backend here
     }
     render(){
         return (

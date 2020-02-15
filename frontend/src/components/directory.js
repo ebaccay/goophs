@@ -16,6 +16,7 @@ export default class Directory extends React.Component {
     }
     getFiles = (data) => {
         this.setState({files: data});
+        // get request to all files here
     }
 
     render(){
