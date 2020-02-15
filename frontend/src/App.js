@@ -1,37 +1,51 @@
 import React from 'react';
+import Background from './img/background.jpg';
 import logo from './logo.svg';
 import './App.css';
 import OptionsMenu from './components/options-menu';
 import FileMenu from './components/directory';
-import {GoogleAPI,GoogleLogin,GoogleLogout} from 'react-google-oauth'
+// import {GoogleAPI,GoogleLogin,GoogleLogout} from 'react-google-oauth'
+
+
+import { GoogleLogin } from 'react-google-login';
 
 export default class App extends React.Component {
 
   constructor(props){
     super(props);
-    this.GoogleAuth = null;
+ 
+  }
+  componentDidMount(){
+    
   }
   getInfo=(e)=>{
     console.log(e);
     this.help();
   }
   help(){
-    console.log(this.gapi.googleGetBasicProfile());
+    // console.log(GoogleAPI.googleGetBasicProfile());
+    
+  }
+  responseGoogle = (response) => {
+    console.log(response);
   }
   render(){
     return (
-      <GoogleAPI 
-            ref={ref => this.gapi = ref} 
-            clientId="901297815426-h7npjpvqnk4480lg949fs1u2um7trcph.apps.googleusercontent.com"
-            onUpdateSigninStatus={this.getInfo}
-            onLoginSuccess={this.getInfo}
-            onInitFailure={Function} >
+
          	<div className="App" style={styles.app}>
-           <div><GoogleLogin /></div>
-            {/* <OptionsMenu/> */}
-            <FileMenu/>
+             <GoogleLogin
+                  clientId="901297815426-h7npjpvqnk4480lg949fs1u2um7trcph.apps.googleusercontent.com"
+                  buttonText="Login"
+                  onSuccess={this.responseGoogle}
+                  onFailure={this.responseGoogle}
+                  cookiePolicy={'single_host_origin'}
+                />
+                      
+              <div style={styles.Bars}>
+              <OptionsMenu/>
+              <FileMenu/>
+            </div>
           </div>
-        </GoogleAPI>
       
     );
   }
@@ -40,6 +54,14 @@ export default class App extends React.Component {
 
 let styles = {
   app : {
+    height: '822px',
+    backgroundImage: `url(${Background})`,
+    backgroundPosition: 'center',
+    backgroundSize: 'cover',
+    backgroundRepeat: 'no-repeat'
+  },
+  Bars: {
+    display: 'flex',
     height: '100%'
-  }
+  },
 }
