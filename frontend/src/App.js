@@ -1,4 +1,5 @@
 import React from 'react';
+import Background from './img/background.jpg';
 import logo from './logo.svg';
 import './App.css';
 import OptionsMenu from './components/options-menu';
@@ -12,8 +13,10 @@ export default class App extends React.Component {
   render(){
     return (
       <div className="App" style={styles.app}>
-        {/* <OptionsMenu/> */}
-        <FileMenu/>
+        <div style={styles.Bars}>
+          <OptionsMenu/>
+          {/* <FileMenu/> */}
+        </div>
       </div>
     );
   }
@@ -22,6 +25,14 @@ export default class App extends React.Component {
 
 let styles = {
   app : {
+    height: '822px',
+    backgroundImage: `url(${Background})`,
+    backgroundPosition: 'center',
+    backgroundSize: 'cover',
+    backgroundRepeat: 'no-repeat'
+  },
+  Bars: {
+    display: 'flex',
     height: '100%'
-  }
+  },
 }
