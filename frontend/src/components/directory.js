@@ -27,7 +27,7 @@ export default class Directory extends React.Component {
         return (
             <Router>
                 <div style={styles.FileMenu}>
-                    <UploadMenu files={this.getFiles}/>
+                    <UploadMenu files={this.getFiles} user={this.props.user}/>
                     <ul style={styles.Directories}>
                         {this.state.directories.map((item, index) => (
                             // <Directory key={index} name={item.name}/>
@@ -48,6 +48,9 @@ export default class Directory extends React.Component {
     }
 }
 let styles = {
+    FileMenu: {
+        width: '100%'
+    },
     Directories: {
         listStyleType: 'none',
     },

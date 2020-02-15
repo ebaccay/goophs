@@ -3,7 +3,7 @@ import Background from './img/background.jpg';
 import logo from './logo.svg';
 import './App.css';
 import OptionsMenu from './components/options-menu';
-import FileMenu from './components/directory';
+import Directory from './components/directory';
 // import {GoogleAPI,GoogleLogin,GoogleLogout} from 'react-google-oauth'
 
 
@@ -13,7 +13,9 @@ export default class App extends React.Component {
 
   constructor(props){
     super(props);
- 
+    this.state = {
+      user:null,
+    }
   }
   componentDidMount(){
     
@@ -28,6 +30,7 @@ export default class App extends React.Component {
   }
   responseGoogle = (response) => {
     console.log(response);
+    this.setState({user: response});
   }
   render(){
     return (
@@ -43,7 +46,7 @@ export default class App extends React.Component {
                       
               <div style={styles.Bars}>
               <OptionsMenu/>
-              <FileMenu/>
+              <Directory user={this.state.user}/>
             </div>
           </div>
       

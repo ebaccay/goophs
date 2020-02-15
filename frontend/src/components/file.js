@@ -12,7 +12,7 @@ export default class File extends React.Component {
     }
     download = () =>{
         console.log("downloading");
-        // send request to download here
+        
     }
     render(){
         return (

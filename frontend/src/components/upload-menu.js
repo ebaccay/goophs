@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { FilePond } from 'react-filepond';
 import 'filepond/dist/filepond.min.css';
+import axios from 'axios';
 
 export default class UploadMenu extends React.Component {
 
@@ -10,13 +11,35 @@ export default class UploadMenu extends React.Component {
             files: []
         }
         this.upload = this.upload.bind(this);
+        
     }
-    upload = () => {
+    
+    upload = (user) => {
         this.setState({files: this.pond.getFiles()});
         console.log(this.state.files);  
         this.props.files(this.state.files); 
-        
+        console.log(user);
         // grab api key and file data and send to backend here
+        return axios({
+            url: `https://us-central1-goophs-268309.cloudfunctions.net/upload-phile`,
+            
+            method: 'post',
+            data: {
+                account: user,
+              },
+            timeout: 8000,
+            headers: {
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*',
+                "Access-Control-Allow-Methods": "DELETE, POST, GET, OPTIONS",
+                "Access-Control-Allow-Headers": "Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With"
+            }
+        })
+       .then(res => {
+            console.log(res);
+            return res;
+       })
+       .catch (err => console.error(err))
     }
     render(){
         return (
@@ -28,7 +51,7 @@ export default class UploadMenu extends React.Component {
                     onupdatefiles={(f) => {
                         this.setState({files: f.map(f=>f.file)})
                     }}/>
-                <button style={styles.Button} onClick={this.upload}>Upload</button>
+                <button style={styles.Button} onClick={()=>this.upload(this.props.user)}>Upload</button>
             </div>
         )
     }
