@@ -18,8 +18,10 @@ export default class File extends React.Component {
         return (
             <li style={styles.File}>
                 <div>
-                    <p>{this.props.name}</p>
-                    <a href="#" onClick={this.download}>Download</a>
+                    <span>
+                        <p style={styles.Title}>{this.props.name}</p>
+                        <a styles={styles.Download} href="#" onClick={this.download}>Download</a>
+                    </span>
                 </div>
             </li>
         )
@@ -30,5 +32,11 @@ let styles={
     File: {
         borderTop: '1px solid',
         paddingBottom: '10px'
+    },
+    Title: {
+        left:0
+    },
+    Download: {
+        right: 0
     }
 }

@@ -2,22 +2,25 @@ import React, { Component } from 'react';
 import { FilePond } from 'react-filepond';
 import 'filepond/dist/filepond.min.css';
 import axios from 'axios';
+import Directory from './directory';
+import OptionsMenu from './options-menu'
 
 export default class UploadMenu extends React.Component {
 
     constructor(props){
         super(props);
         this.state = {
-            files: []
+            tfiles: [],
+            files: [],
+            directories: []
         }
         this.upload = this.upload.bind(this);
         
     }
     
     upload = (user) => {
-        this.setState({files: this.pond.getFiles()});
+        this.setState({files: this.state.tfiles});
         console.log(this.state.files);  
-        this.props.files(this.state.files); 
         console.log(user);
         // grab api key and file data and send to backend here
         return axios({
@@ -37,6 +40,10 @@ export default class UploadMenu extends React.Component {
         })
        .then(res => {
             console.log(res);
+
+            // update file list here
+            
+
             return res;
        })
        .catch (err => console.error(err))
@@ -44,14 +51,19 @@ export default class UploadMenu extends React.Component {
     render(){
         return (
             <div style={styles.UploadMenu}>
-                <FilePond 
-                    ref={ref => this.pond = ref} 
-                    allowMultiple={true} 
-                    files={this.state.files}
-                    onupdatefiles={(f) => {
-                        this.setState({files: f.map(f=>f.file)})
-                    }}/>
-                <button style={styles.Button} onClick={()=>this.upload(this.props.user)}>Upload</button>
+                
+                <div>
+                <OptionsMenu/>
+                    <FilePond 
+                        ref={ref => this.pond = ref} 
+                        allowMultiple={true} 
+                        files={this.state.files}
+                        onupdatefiles={(f) => {
+                            this.setState({tfiles: f.map(f=>f.file)})
+                        }}/>
+                    <button style={styles.Button} onClick={()=>this.upload(this.props.user)}>Upload</button>
+                </div>
+                {/* <Directory files={this.state.files} directories={this.state.directories}/> */}
             </div>
         )
     }

@@ -1,11 +1,23 @@
 import React, { Component } from 'react';
 import UploadMenu from './upload-menu';
 import File from './file';
+import { Route, Link, BrowserRouter as Router } from 'react-router-dom'
 
+var test = {
+    f1: {
+        name: 'f1'
+    },
+    f2: {
+        name: 'f2'
+    },
+    f3: {
+        name: 'f3'
+    }
+}
 // import ReactDOM from 'react-dom';
 // import { Router, Route, browserHistory, IndexRoute } from 'react-router'
 // import { Link } from 'react-router-dom';
-import { Route, Link, BrowserRouter as Router } from 'react-router-dom'
+
 export default class Directory extends React.Component {
 
     constructor(props){
@@ -18,31 +30,31 @@ export default class Directory extends React.Component {
     }
     componentDidMount(){
     }
-    getFiles = (data) => {
-        this.setState({files: data});
+    getFiles = () => {
+        this.setState({files: test});
         // get request to all files here
     }
 
     render(){
         return (
-            <Router>
+            
                 <div style={styles.FileMenu}>
-                    <UploadMenu files={this.getFiles} user={this.props.user}/>
+                    {/* <UploadMenu files={this.getFiles} user={this.props.user}/> */}
                     <ul style={styles.Directories}>
-                        {this.state.directories.map((item, index) => (
+                        {this.props.directories.map((item, index) => (
                             // <Directory key={index} name={item.name}/>
                         <Link key={index} to={`/+${item.name}`}>{item.name}</Link>
                         // <Route path={`/:itemName/:topicId`} component={Directory}/>
                         ))}
                     </ul>
                     <ul style={styles.Files}>
-                        {this.state.files.map((item, index) => (
+                        {this.props.files.map((item, index) => (
                             <File key={index} name={item.name}/>
                         ))}
                     </ul>
                     
                 </div>
-             </Router>
+             
             
         )
     }
