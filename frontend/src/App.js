@@ -1,8 +1,11 @@
 import React from 'react';
 import Background from './img/background.jpg';
+import Button from './img/google_button.jpg';
 import logo from './logo.svg';
 import './App.css';
+import BearLogo from './img/bear.png';
 import OptionsMenu from './components/options-menu';
+
 // import {GoogleAPI,GoogleLogin,GoogleLogout} from 'react-google-oauth'
 import { Route, Link, BrowserRouter as Router } from 'react-router-dom'
 
@@ -31,11 +34,12 @@ export default class App extends React.Component {
   }
   display(){
     if(!this.state.loggedIn){
-      
       return <GoogleLogin
         style={styles.LogginBtn}
         render={renderProps => (
-                  <a href="#" onClick={renderProps.onClick} href="" style={styles.LogginBtn} >Click to Login</a>
+                  <a href="#" onClick={renderProps.onClick} href="" style={styles.LogginBtn} >
+                    <img src={Button} style={styles.Login}></img>
+                  </a>
                 )}
         clientId="901297815426-h7npjpvqnk4480lg949fs1u2um7trcph.apps.googleusercontent.com"
         buttonText="Login"
@@ -65,15 +69,16 @@ export default class App extends React.Component {
     return (
          	<div className="App" style={styles.app}>
               <div style={styles.Bars}>
-              <OptionsMenu goTo={this.page}/>
+                <OptionsMenu goTo={this.page}/>
               {this.display()}
             </div>
           </div>
       
     );
   }
-  
 }
+
+document.body.style = "overflow:hidden";
 
 let styles = {
   app : {
@@ -87,7 +92,15 @@ let styles = {
     display: 'flex',
     height: '100%'
   },
-  Loggin:{
+  LoginWrapper: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+  },
+  Login:{
+    borderRadius: '5px',
+    width: '420px',
+    height: '80px',
   },
   LogginBtn: {
         borderRadius: 12,
