@@ -1,9 +1,11 @@
+import sys
+sys.path.append("/usr/local/lib/python3.7/site-packages")
+
 from PIL import Image
 from os import path
 import numpy as np
 import random
 import json
-import sys
 import os
 
 SKELETON_IMAGES_PATH = "/Users/ebaccay/Repositories/goophs/skeleton_image_bank/"
@@ -202,8 +204,9 @@ def upload_philes(request):
     dict_philes = file_to_phile("dict.json")
     os.remove("dict.json")
 
-    with open("index.txt", "w+") as f:
-        f.write(str(len(dict_philes)))
+    with open("index.txt") as f:
+        dict_num = int(f.read().split("\x00")[0])
+    os.remove("index.txt")
 
     if path.exists("index.txt_0.png"):
         os.remove("index.txt_0.png")
