@@ -25,15 +25,15 @@ export default class Info extends React.Component {
                     <h2 style={styles.InfoHeader}>The Technology</h2>
                     <h3 style={styles.TechHeader}>Backend</h3>
                         <ul style={styles.TechList}>
-                            <li>API 1</li>
-                            <li>API 2</li>
-                            <li>API 3</li>
+                            <li>Google Cloud Platform</li>
+                            <li>LSB Steganography</li>
+                            <li>Jupyter</li>
                         </ul>
                     <h3 style={styles.TechHeader}>Frontend</h3>
                         <ul style={styles.TechList}>
-                            <li>HTML 5</li>
-                            <li>CSS 3</li>
                             <li>React.js</li>
+                            <li>OAuth</li>
+                            <li>FilePond</li>
                         </ul>
                     <div style={styles.Photos}>
                         <img src={GoogleLogo} style={styles.GoogleLogo}></img>

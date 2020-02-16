@@ -35,7 +35,7 @@ export default class App extends React.Component {
     // this.initGCP(); 
   }
   display(){
-    if(this.state.loggedIn){
+    if(!this.state.loggedIn){
       return <GoogleLogin
         style={styles.LogginBtn}
         render={renderProps => (
