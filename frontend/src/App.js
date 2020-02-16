@@ -27,7 +27,7 @@ export default class App extends React.Component {
     this.state = {
       user:null,
       loggedIn:false,
-      active: 1
+      active: 1,
     }
     this.store = new Store();
   }
