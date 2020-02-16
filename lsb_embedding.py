@@ -241,17 +241,13 @@ def main():
     try:
         command = sys.argv[1]
         filename = sys.argv[2]
+        request = {
+            "filename": filename
+        }
         if command == "upload":
-            request = {
-                "filename": filename,
-                "data": get_image_matrix(filename)
-            }
             upload_philes(request)
         elif command == "download":
-            request = {
-                "filename": filename
-            }
-            download_philes(request)
+            download_phile(request)
 
     except IndexError:
         print("Wrong number of args :(")
