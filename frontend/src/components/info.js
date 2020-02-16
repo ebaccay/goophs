@@ -114,6 +114,7 @@ let styles = {
                     paddingTop: '0px',
                     marginBottom: '10px',
                 },
+
             GoogleLogo: {
                 marginTop: '0px',
                 paddingTop: '0px',

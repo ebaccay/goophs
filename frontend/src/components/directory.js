@@ -100,6 +100,7 @@ let styles = {
     },
     Files: {
         //border: '2px solid green',
+        border: 'none',
         width: '95%',
         listStyleType: 'none',
         paddingLeft: '0px',

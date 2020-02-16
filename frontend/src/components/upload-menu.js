@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Route, Link, BrowserRouter as Router } from 'react-router-dom'
 import { FilePond } from 'react-filepond';
 import 'filepond/dist/filepond.min.css';
 import axios from 'axios';
@@ -7,6 +8,9 @@ import OptionsMenu from './options-menu'
 import BearLogo from '../img/bear.png';
 import Store from '../store';
 const cors = require('cors');
+
+
+
 
 const corsOptions = {
     origin: 'http://localhost:3000'
@@ -37,9 +41,13 @@ export default class UploadMenu extends React.Component {
     handleFileUpload=( ) =>{
         // var d = document.querySelector('input[type="file"]').files[0];
         // console.log(d);
-        this.store.updateFiles(
-           this.state.files[0]
-        )
+        if (this.state.files != undefined){
+            this.store.updateFiles(
+                this.state.files[0]
+             )
+        }
+        //Auto Redirect Router
+        return <Route path="/files" component={Directory} />
       }
     render(){
         return (
@@ -57,9 +65,16 @@ export default class UploadMenu extends React.Component {
                             onupdatefiles={(f) => {
                                 this.setState({files: f.map(f=>f.file)})
                             }}/>
-                        <button style={styles.Button} onClick={this.handleFileUpload}>Upload</button>
-                
+                        {/* Link to reconnect to file page */} 
+                        <Link to={{pathname:"/files", state: {loggedIn: this.state.loggedIn}}}  style={styles.Page} href="#Files">
+                            <button style={styles.Button} onClick={this.handleFileUpload}>
+                                Upload
+                            </button>
+                        </Link>
                     </div>
+                </div>
+                <div style={styles.InfoDiv}>
+                    <Link to={{pathname:"/info", state: {loggedIn: this.state.loggedIn}}}  style={styles.InfoButton} href="#Info">About Us</Link>
                 </div>
             </div>
         )
@@ -72,15 +87,16 @@ let styles = {
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'center',
-        //alignContent: 'center',
+        alignContent: 'center',
         height: '100%',
         //paddingLeft: '40px',
         //paddingTop: '20px',
-        //border: '2px solid green',
+        //border: '2px solid blue',
     },
     UploadMenu: {
         width: '97%',
         display: 'flex',
+        height: '100%',
         //display: 'inline-block',
         //marginTop: '40px',
         flexDirection: 'column',
@@ -122,5 +138,25 @@ let styles = {
         textAlign: 'center',
         WebkitAppearance: 'none',
         MozAppearance: 'none',
-    }
+    },
+    InfoDiv: {
+        height: '100%',
+        width: '100%',
+        display: 'flex',
+        //border: '1px solid black',
+        marginLeft: '10%',
+        alignSelf: 'flex-end',
+    },
+    InfoButton: {
+        textDecoration: 'none',
+        color: '#ffffff',
+        fontSize: '1rem',
+        padding: '15px',
+        alignSelf: 'flex-end',
+        width: '80%',
+        textAlign: 'center',
+        backgroundColor: 'rgba(185, 185, 142, 0.9)',
+        borderRadius: '6px',
+        //border: '1px solid black',
+    },
 }

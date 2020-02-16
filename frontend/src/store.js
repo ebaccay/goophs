@@ -11,7 +11,7 @@ export default class Store  {
     
     state = {
         user: null,
-        files: [{name: 'file.txt'},{name: 'file.png'},{name: 'file.jpg'},{name: 'file.jpeg'}],
+        files: [{name: 'fight.mp3'}],
         isLoggedIn: false,
         projectId: 'goophs-268309',
         keyFilename: 'C:\Users\Owner\Documents\TreeHacks\repos\credentials.json',
