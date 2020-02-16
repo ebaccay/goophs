@@ -31,6 +31,27 @@ export default class App extends React.Component {
     }
     this.store = new Store();
   }
+
+  async initGCP(){
+    let projectId = 'goophs-268309';
+    let keyFilename2 = 'credentials.json'
+    // const storage = new Storage({keyFilename: keyFilename2});
+    const storage = new Storage({keyFilename: keyFilename2});
+    
+    try {
+        // Makes an authenticated API request.
+        const results = await storage.getBuckets();
+
+        const [buckets] = results;
+
+        console.log('Buckets:');
+        buckets.forEach(bucket => {
+            console.log(bucket.name);
+        });
+    } catch (err) {
+        console.error('ERROR:', err);
+    }
+}
   componentDidMount(){
     // this.initGCP(); 
   }

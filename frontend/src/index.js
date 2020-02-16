@@ -3,15 +3,6 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
-const cors = require('cors')
-
-const corsOptions = {
-    // origin: ['http://localhost'],
-    // allowedHeaders: ["Content-Type", "Authorization", "Access-Control-Allow-Methods", "Access-Control-Request-Headers"],
-    // credentials: true,
-    // enablePreflight: true
-}
-
 // App.use(cors(corsOptions));
 // App.options('*', cors(corsOptions))
 

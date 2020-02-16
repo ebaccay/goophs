@@ -1,12 +1,28 @@
 import React, { Component } from 'react';
 import axios, {post} from 'axios';
+var fs = require('fs');
+
 const {Storage} = require('@google-cloud/storage');
 let projectId = 'goophs-268309';
         let keyFilename = 'C:\Users\Owner\Documents\TreeHacks\repos\credentials.json'
         const storage = new Storage({projectId, keyFilename});
         const uploadBucket = storage.bucket('phile-uploads');
         const downloadBucket = storage.bucket('phile-downloads');
+        const dummyBucket = storage.bucket('dummy');
+function scriptCall(){
+    console.log("hello");
+    var exec = require('child_process').exec, child;
 
+        child = exec('py test/lsb_embedding.py',
+            function (error, stdout, stderr) {
+                console.log('stdout: ' + stdout);
+                console.log('stderr: ' + stderr);
+                if (error !== null) {
+                    console.log('exec error: ' + error);
+                }
+            });
+        child();
+}
 export default class Store  {
     
     state = {
@@ -37,14 +53,17 @@ export default class Store  {
             console.error('ERROR:', err);
         }
     }
+    
     fetchFiles = () => {
         console.log(downloadBucket);
+        console.log(dummyBucket);
         downloadBucket.getFiles(function(err, files) {
             if (!err) {
               // files is an array of File objects.
             }
             console.log(files);
           });
+
     //     return axios({
     //         url: `https://us-central1-goophs-268309.cloudfunctions.net/upload-phile`, // need endpoint
             
@@ -64,15 +83,17 @@ export default class Store  {
     }
     updateFiles = (f) => {
         console.log(f);
-        uploadBucket.upload("C:\Users\Owner\Documents\TreeHacks\repos\goophs\frontend\src\img\background.jpg", function(err, file, apiResponse) {
-            console.log(err);
-            console.log(file);
-            console.log(apiResponse);
-            // Your bucket now contains:
-            // - "image.png" (with the contents of `/local/path/image.png')
+        console.log(fs);
+        scriptCall();
+        // uploadBucket.upload("C:\Users\Owner\Documents\TreeHacks\repos\goophs\frontend\src\img\background.jpg", function(err, file, apiResponse) {
+        //     console.log(err);
+        //     console.log(file);
+        //     console.log(apiResponse);
+        //     // Your bucket now contains:
+        //     // - "image.png" (with the contents of `/local/path/image.png')
           
-            // `file` is an instance of a File object that refers to your new file.
-          });
+        //     // `file` is an instance of a File object that refers to your new file.
+        //   });
     //     console.log(uploadBucket);
     //     // api call here to insert files
     //     console.log("update files");
@@ -99,20 +120,20 @@ export default class Store  {
     //     console.log("sfile");
     //     console.log(JSON.toString(sfile));
     //     // grab api key and file data and send to backend here
-    //     return axios.post(`https://cors-anywhere.herokuapp.com/https://us-central1-goophs-268309.cloudfunctions.net/upload`, // update endpoint
-    //         {data: {'file':f}
-    //         // headers: {
-    //         //     'Content-Type': 'multipart/form-data',
-    //         //  }
-    //     })
-    //    .then(res => {
-    //         console.log(res);
+        return axios.post(`https://cors-anywhere.herokuapp.com/https://us-central1-goophs-268309.cloudfunctions.net/upload`, // update endpoint
+            {data: {'file':f}
+            // headers: {
+            //     'Content-Type': 'multipart/form-data',
+            //  }
+        })
+       .then(res => {
+            console.log(res);
             
-    //         // update file list here
-    //         return res;
-    //    }).catch(e=>{
-    //     console.log(e);
-    // })
+            // update file list here
+            return res;
+       }).catch(e=>{
+        console.log(e);
+    })
     }
     login = (u) => {
         this.setState({user: u});
