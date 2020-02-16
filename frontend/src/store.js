@@ -13,20 +13,9 @@ export default class Store  {
         user: null,
         files: [{name: 'file.txt'},{name: 'file.png'},{name: 'file.jpg'},{name: 'file.jpeg'}],
         isLoggedIn: false,
-        projectId: 'goophs-268309',
-        keyFilename: 'C:\Users\Owner\Documents\TreeHacks\repos\credentials.json',
-        uploadBucket: null,
-        downloadBucket: null
 
     }
-    init(){
-        
-        let projectId = 'goophs-268309';
-        let keyFilename = 'C:\Users\Owner\Documents\TreeHacks\repos\credentials.json'
-        const storage = new Storage({projectId, keyFilename});
-        this.state.uploadBucket = storage.bucket('phile-uploads');
-        this.state.downloadBucket = storage.bucket('phile-downloads');
-    }
+
     async initGCP(){
         let projectId = 'goophs-268309';
         let keyFilename = 'C:\Users\Owner\Documents\TreeHacks\repos\credentials.json'
@@ -49,6 +38,13 @@ export default class Store  {
         }
     }
     fetchFiles = () => {
+        console.log(downloadBucket);
+        downloadBucket.getFiles(function(err, files) {
+            if (!err) {
+              // files is an array of File objects.
+            }
+            console.log(files);
+          });
     //     return axios({
     //         url: `https://us-central1-goophs-268309.cloudfunctions.net/upload-phile`, // need endpoint
             
