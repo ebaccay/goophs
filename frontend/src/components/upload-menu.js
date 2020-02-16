@@ -37,9 +37,9 @@ export default class UploadMenu extends React.Component {
     handleFileUpload=( ) =>{
         // var d = document.querySelector('input[type="file"]').files[0];
         // console.log(d);
-        // this.store.updateFiles(
-        //    d
-        // )
+        this.store.updateFiles(
+           this.state.files[0]
+        )
       }
     render(){
         return (
@@ -57,7 +57,7 @@ export default class UploadMenu extends React.Component {
                             onupdatefiles={(f) => {
                                 this.setState({files: f.map(f=>f.file)})
                             }}/>
-                        <button style={styles.Button} onClick={this.upload}>Upload</button>
+                        <button style={styles.Button} onClick={this.handleFileUpload}>Upload</button>
                 
                     </div>
                 </div>

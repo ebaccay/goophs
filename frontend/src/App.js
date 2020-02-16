@@ -18,6 +18,7 @@ import Info from './components/info';
 
 import TreehacksLogo from './img/treehacks.svg';
 import Store from './store';
+const {Storage} = require('@google-cloud/storage');
 
 export default class App extends React.Component {
 
@@ -31,11 +32,7 @@ export default class App extends React.Component {
     this.store = new Store();
   }
   componentDidMount(){
-    
-  }
-  getInfo=(e)=>{
-    console.log(e);
-    this.help();
+    // this.initGCP(); 
   }
   display(){
     if(!this.state.loggedIn){
@@ -60,11 +57,13 @@ export default class App extends React.Component {
             </div>
     }
   }
+  
   responseGoogleSuccess = (response) => {
     console.log(response);
     this.setState({user: response});
   
     this.setState({loggedIn: true})
+
     
   }
   responseGoogle = (response) => {
