@@ -6,13 +6,18 @@ import Directory from './directory';
 import OptionsMenu from './options-menu'
 import BearLogo from '../img/bear.png';
 import Store from '../store';
-    
+const cors = require('cors');
+
+const corsOptions = {
+    origin: 'http://localhost:3000'
+  }
+
 export default class UploadMenu extends React.Component {
 
     constructor(props){
         super(props);
         this.state = {
-            files: [],
+            file: null,
             directories: [],
             user: null,
         }
@@ -21,8 +26,21 @@ export default class UploadMenu extends React.Component {
     }
     
     upload = () => {
-        this.store.updateFiles(this.state.files);
+        console.log("upload");
+        if(this.state.file!=null){
+            console.log(this.state.file[0]);
+            this.store.updateFiles(this.state.file[0]);
+        }
+
+        
     }
+    handleFileUpload=( ) =>{
+        // var d = document.querySelector('input[type="file"]').files[0];
+        // console.log(d);
+        // this.store.updateFiles(
+        //    d
+        // )
+      }
     render(){
         return (
             <div style={styles.UploadMenu}>
@@ -31,12 +49,16 @@ export default class UploadMenu extends React.Component {
                     <h1 style={styles.BearBones}>Bear Bones Storage</h1>
                 </div>
                 <div style={styles.Uploader}>
+              
                     <FilePond 
                         ref={ref => this.pond = ref} 
-                        allowMultiple={true} 
-                        files={this.state.files}
+                        files={this.state.file? this.state.file[0]: ""}
+                        
+                        // server="https://cors-anywhere.herokuapp.com/https://us-central1-goophs-268309.cloudfunctions.net/upload-phile"
                         onupdatefiles={(f) => {
-                            this.setState({files: f.map(f=>f.file)})
+
+                            this.setState({file: f})
+                            console.log(f);
                         }}/>
                     <button style={styles.Button} onClick={this.upload}>Upload</button>
              

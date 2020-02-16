@@ -4,21 +4,6 @@ import File from './file';
 import { Route, Link, BrowserRouter as Router } from 'react-router-dom'
 import Store from '../store';
 
-var test = {
-    f1: {
-        name: 'f1'
-    },
-    f2: {
-        name: 'f2'
-    },
-    f3: {
-        name: 'f3'
-    }
-}
-// import ReactDOM from 'react-dom';
-// import { Router, Route, browserHistory, IndexRoute } from 'react-router'
-// import { Link } from 'react-router-dom';
-
 export default class Directory extends React.Component {
 
     constructor(props){

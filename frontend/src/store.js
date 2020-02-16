@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import axios from 'axios';
+import axios, {post} from 'axios';
 
 export default class Store  {
     state = {
@@ -29,28 +29,42 @@ export default class Store  {
         // api call here to insert files
         console.log("update files");
         console.log(f);
+        const formData = new FormData();
+        formData.append('file',f);
+        console.log('formData');
+        console.log(formData);
+        let sfile = {
+            id: f.id,
+            origin: f.origin,
+            serverId: f.serverId,
+            transferId: f.transferId,
+            status: f.status,
+            filename: f.filename,
+            filenameWithoutExtension: f.filenameWithoutExtension,
+            fileExtension: f.fileExtension,
+            fileType: f.fileType,
+            fileSize: f.fileSize,
+            file: f.file,
+            relativePath: f.relativePath,
+            source: f.source
+        }
+        console.log("sfile");
+        console.log(JSON.toString(sfile));
         // grab api key and file data and send to backend here
-        return axios({
-            url: `https://us-central1-goophs-268309.cloudfunctions.net/upload-phile`, // update endpoint
-            
-            method: 'post',
-            data: {
-                account: this.state.user,
-              },
-            timeout: 8000,
-            headers: {
-                'Content-Type': 'application/json',
-                'Access-Control-Allow-Origin': '*',
-                "Access-Control-Allow-Methods": "DELETE, POST, GET, OPTIONS",
-                "Access-Control-Allow-Headers": "Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With"
-            }
+        return axios.post(`https://cors-anywhere.herokuapp.com/https://us-central1-goophs-268309.cloudfunctions.net/upload`, // update endpoint
+            {data: {'file':f}
+            // headers: {
+            //     'Content-Type': 'multipart/form-data',
+            //  }
         })
        .then(res => {
             console.log(res);
             
             // update file list here
             return res;
-       })
+       }).catch(e=>{
+        console.log(e);
+    })
     }
     login = (u) => {
         this.setState({user: u});
