@@ -183,9 +183,8 @@ def upload_philes(request):
     if path.exists("index.txt_0.png"):
         phile_to_file(["index.txt_0.png"], "index.txt")
 
-
         with open("index.txt") as f:
-            dict_num = int(f.read().split("\x00")[0])
+            dict_num = int(f.read())
 
         dict_philes = [f"dict.json_{i}.png" for i in range(dict_num)]
         phile_to_file(dict_philes)
