@@ -61,21 +61,7 @@ export default class UploadMenu extends React.Component {
                 
                     </div>
                 </div>
-                <div style={styles.Uploader}>
-              
-                    <FilePond 
-                        ref={ref => this.pond = ref} 
-                        files={this.state.file? this.state.file[0]: ""}
-                        
-                        // server="https://cors-anywhere.herokuapp.com/https://us-central1-goophs-268309.cloudfunctions.net/upload-phile"
-                        onupdatefiles={(f) => {
-
-                            this.setState({file: f})
-                            console.log(f);
-                        }}/>
-                    <button style={styles.Button} onClick={this.upload}>Upload</button>
-             
-            </div></div>
+            </div>
         )
     }
 }
