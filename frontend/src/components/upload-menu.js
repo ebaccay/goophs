@@ -43,10 +43,23 @@ export default class UploadMenu extends React.Component {
       }
     render(){
         return (
-            <div style={styles.UploadMenu}>
-                <div style={styles.Title}>
-                    <img src={BearLogo} style={styles.BigLogo}></img>
-                    <h1 style={styles.BearBones}>Bear Bones Storage</h1>
+            <div class="MainBar">
+                <div style={styles.UploadMenu}>
+                    <div style={styles.Title}>
+                        <img src={BearLogo} style={styles.BigLogo}></img>
+                        <h1 style={styles.BearBones}>Bear Bones Storage</h1>
+                    </div>
+                    <div style={styles.Uploader}>
+                        <FilePond 
+                            ref={ref => this.pond = ref} 
+                            allowMultiple={true} 
+                            files={this.state.files}
+                            onupdatefiles={(f) => {
+                                this.setState({files: f.map(f=>f.file)})
+                            }}/>
+                        <button style={styles.Button} onClick={this.upload}>Upload</button>
+                
+                    </div>
                 </div>
                 <div style={styles.Uploader}>
               
@@ -68,18 +81,28 @@ export default class UploadMenu extends React.Component {
 }
 
 let styles = {
-    UploadMenu: {
+    MainBar: {
         width: '100%',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        //alignContent: 'center',
+        height: '100%',
+        //paddingLeft: '40px',
+        //paddingTop: '20px',
+        //border: '2px solid green',
+    },
+    UploadMenu: {
+        width: '97%',
         display: 'flex',
         //display: 'inline-block',
         //marginTop: '40px',
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
-        //background: '#f9f9f9',
-        padding: '10px',
+        padding: '20px',
         borderRadius: '6px',
-        //border: '1px solid black',
+        //border: '2px solid black',
     },
     Title: {
         display: 'flex',

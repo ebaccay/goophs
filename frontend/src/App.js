@@ -5,6 +5,7 @@ import logo from './logo.svg';
 import './App.css';
 import BearLogo from './img/bear.png';
 import OptionsMenu from './components/options-menu';
+import GooglePhotosLogo from './img/google-photos.svg';
 
 // import {GoogleAPI,GoogleLogin,GoogleLogout} from 'react-google-oauth'
 import { Route, Link, BrowserRouter as Router } from 'react-router-dom'
@@ -52,7 +53,11 @@ export default class App extends React.Component {
         cookiePolicy={'single_host_origin'}
       />;
     }else{
-      return <UploadMenu user={this.state.user}/>
+      return <div style={styles.Unwrap}>
+              <Route path="/upload" component={UploadMenu} />
+              <Route path="/files" component={Directory} />
+              <Route path="/info" component={Info} />
+            </div>
     }
   }
   responseGoogleSuccess = (response) => {
@@ -69,32 +74,29 @@ export default class App extends React.Component {
   render(){
     return (
       <Router> 
-         	<div className="App" style={styles.app}>
-              <div style={styles.Bars}>
-                {/* <OptionsMenu goTo={this.page}/>
-              {this.display()} */}
-
-              <div style={styles.Sidebar}>
-                    <div style={styles.ImageWrap}>
-                    <img style={styles.TreehacksLogo} src={TreehacksLogo}></img>
-                    <img style={styles.SmallLogo} src={BearLogo}></img>
-                    </div>
-                    
-                    <div style={styles.Links}>
-                            <ul style={styles.NavList}>
-                                <li><Link to={{pathname:"/upload", state: {loggedIn: this.state.loggedIn}}} style={styles.Page} href="#Home">Upload</Link></li>
-                                <li><Link to={{pathname:"/files", state: {loggedIn: this.state.loggedIn}}}  style={styles.Page} href="#Files">My Files</Link></li>
-                                <li><Link to={{pathname:"/info", state: {loggedIn: this.state.loggedIn}}}  style={styles.Page} href="#Info">Info</Link></li>
-                            </ul>           
-                    </div>
-                </div>
-                <Route path="/upload" component={UploadMenu} />
-                <Route path="/files" component={Directory} />
-                <Route path="/info" component={Info} />
+        <div className="App" style={styles.app}>
+          <div style={styles.Bars}>
+            {/* <OptionsMenu goTo={this.page}/>*/}
+            <div style={styles.Sidebar}>
+              <div style={styles.ImageWrap}>
+                <img style={styles.TreehacksLogo} src={TreehacksLogo}></img>
+                <img style={styles.SmallLogo} src={BearLogo}></img>
+              </div>
+              <div style={styles.Links}>
+                <ul style={styles.NavList}>
+                  <li><Link to={{pathname:"/upload", state: {loggedIn: this.state.loggedIn}}} style={styles.Page} href="#Home">Upload</Link></li>
+                  <li><Link to={{pathname:"/files", state: {loggedIn: this.state.loggedIn}}}  style={styles.Page} href="#Files">My Files</Link></li>
+                  <li><Link to={{pathname:"/info", state: {loggedIn: this.state.loggedIn}}}  style={styles.Page} href="#Info">Info</Link></li>
+                  <li>
+                    <img src={GooglePhotosLogo} style={styles.PhotosLogo}></img>
+                  </li>
+                </ul>           
+              </div>
             </div>
+            {this.display()} 
           </div>
-          </Router>
-      
+        </div>
+      </Router>
     );
   }
 }
@@ -109,9 +111,23 @@ let styles = {
     backgroundSize: 'cover',
     backgroundRepeat: 'no-repeat'
   },
+  PhotosLogo: {
+    width: '120px',
+    height: '120px',
+    marginTop: '340px',
+  },
   Bars: {
     display: 'flex',
     height: '100%'
+  },
+  Unwrap: {
+    margin: '0px',
+    padding: '0px',
+    width: '100%',
+    height: '100%',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   LoginWrapper: {
     display: 'flex',
@@ -146,7 +162,7 @@ let styles = {
 NavList:{
     listStyleType: 'none',
     display: 'inline-block',
-    padding: 0
+    padding: '0',
 },
 ImageWrap: {
     margin: 10,
