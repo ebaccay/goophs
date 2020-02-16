@@ -1,241 +1,257 @@
-MAX_FILE_SIZE = 0  # TODO: Fix this number
-CLOUD_BUCKET = "/"  # TODO: Get this cloud bucket
+from PIL import Image
+import numpy as np
+import random
+import json
+
+SKELETON_IMAGES_PATH = "~/Repositories/goophs/skeleton_image_bank/"
+INDEX_PNG_SKELETON = SKELETON_IMAGES_PATH + "index.png"
+DICT_PNG_SKELETON = SKELETON_IMAGES_PATH + "dict.png"
+NUM_SKELETONS = 42
 
 
-def create_byte_arr(filename):
-    """
-
-    Extracts the relevant byte array from the file
-
-    Parameters
-    ----------
-    filename : string
-        The name of the file that information will be extracted from
-
-    Returns
-    -------
-    byte[]
-        The array of bytes extracted from the file
-
-    """
-
-    # TODO: Implement this
-    with open(filename, "rb") as file:
-        f = file.read()
-        byte_arr = bytearray(f)
-    return byte_arr
+# File upload
+def get_image_matrix(filename):
+    im = Image.open(filename)
+    return np.array(im)
 
 
-def write_to_png(byte_arr, png_file, new_png_file_name):
-    """
-
-    Append the contents of the byte array onto the png_file
-
-    Parameters
-    ----------
-    byte_arr : byte[]
-        The array of bytes to be appended to the png file
-    png_file : string
-        The name of the png file that the byte array will be appended to
-    new_png_file_name : string
-        The name of the new png file
-
-    Returns
-    -------
-    string
-        The name of the png file that now contains the appended byte array
-
-    """
-    with open(png_file, "rb") as image:
-        f = image.read()
-        b = bytearray(f)
-    og_size = len(b)
-    b += byte_arr
-    file = open(new_png_file_name, 'wb')
-    file.write(b)
-    file.close()
-    return new_png_file_name
+def write_image_matrix(matrix, filename):
+    im = Image.fromarray(matrix, "RGB")
+    im.save(filename)
+    return True
 
 
-def extract_from_png(png_name, og_size):
-    """
-
-    Extracts the byte array stored in the png file given by `png_name`
-
-    Parameters
-    ----------
-    png_name : string
-        The name of the PNG file on the current file system that holds the stored bytes
-    og_size : int
-        The length of the original non-appended file in bytes
-
-    Returns
-    -------
-    byte[]
-        The byte array stored on the PNG file that is now extracted
-
-    """
-    with open(png_name, "rb") as image:
-        f = image.read()
-        b = bytearray(f)[og_size:]
-    image.close()
-    return b
+def byte_difference(original_byte, wanted_byte):
+    mask = wanted_byte & 3
+    cleared_original = original_byte & 252
+    return cleared_original | mask
 
 
-def upload_phile(png_file):
-    """
-
-    Uploads the specified png file (or any file really) into Google Photos using the Photos REST API
-
-    Parameters
-    ----------
-    png_file : string
-        The name of the png file that will be uplaoded to Google Photos
-
-    Returns
-    -------
-    boolean
-        True or false as to whether or not the operation failed (true if success)
-
-    """
-    # TODO: Implement this
-    pass
+def split_byte(byte):
+    quad1 = (byte & 192) >> 6
+    quad2 = (byte & 48) >> 4
+    quad3 = (byte & 12) >> 2
+    quad4 = byte & 3
+    return [quad1, quad2, quad3, quad4]
 
 
-def download_phile(png_file):
-    """
-
-    Downloads the specified png file (or any file really) from Google Photos using the Photos REST API
-
-    Parameters
-    ----------
-    png_file : string
-        The name of the png file that will be downloaded from Google Photos
-
-    Returns
-    -------
-    string
-        The name of the file just downloaded on the local file system
-
-    """
-    # TODO: Implement this
-    pass
+def get_bytes(filename):
+    with open(filename, "rb") as f:
+        bytes_read = f.read()
+    return bytes_read
 
 
-def get_random_img(bucket_name):
-    """
-
-    Gets a random image (but any file really) from the bucket named `bucket_name`
-
-    Parameters
-    ----------
-    bucket_name : string
-        The name of the bucket that random images will be downloaded from
-
-    Returns
-    -------
-    ???
-        The image that was downloaded from the bucket
-    """
-    #  TODO: Implement this
-    pass
+def get_split_bytes(byte_arr):
+    byte_chunks = []
+    [byte_chunks.extend(split_byte(byte)) for byte in byte_arr]
+    return byte_chunks
 
 
-def split_file(filename):
-    """
-
-    Splits a singular file's bytes into multiple files to fit into the Google Photos size limit
-
-    Parameters
-    ----------
-    filename : string
-        The name of the file to split
-
-    Returns
-    -------
-    array[bytes[]]
-        Array of byte arrays in which the file was split into
-    (string, size)[]
-        Array of PNG filenames and og size which, when appened to by the bytes of the raw files, will yield perfectly sized philes
+def overwrite_bytes(img_matrix, byte_chunks):
+    x, y, z = img_matrix.shape
+    i = 0
+    for xi in range(x):
+        for yi in range(y):
+            for zi in range(z):
+                try:
+                    img_matrix[xi][yi][zi] = byte_difference(img_matrix[xi][yi][zi], byte_chunks[i])
+                    i += 1
+                except IndexError:
+                    img_matrix[xi][yi][zi] = byte_difference(img_matrix[xi][yi][zi], 0)
+    return img_matrix
 
 
-    """
-    split_file_byte_arr = []
-    split_image_names = []
-    file_byte_arr = create_byte_arr(filename)
-    file_size = len(file_byte_arr)
-    curr_index = 0
-    while curr_index < file_size:
-        image_file_name = get_random_img(CLOUD_BUCKET)
-        image_byte_arr = create_byte_arr(image_file_name)
-        image_size = len(image_byte_arr)
-        space = MAX_FILE_SIZE - image_size
-        split_file_byte_arr.append(file_byte_arr[curr_index:curr_index + space])
-        curr_index += space
-        split_image_names.append((image_file_name, image_size))
-    return split_file_byte_arr, split_image_names
+def get_phile_matrices(byte_chunks):
+    skeleton_imgs = []
 
+    total_chunk_len = len(byte_chunks)
+    total_embed_len = 0
+    while total_embed_len < total_chunk_len:
+        new_img = download_random_img()
+        skeleton_imgs.append(new_img)
+        total_embed_len += new_img.size
 
-def merge_bytes(filenames):
-    """
-
-    Merges multiple bytes arrays together into a singular byte array
-
-    Parameters
-    ----------
-    filenames : byte[][]
-        An array of strings which correspond to the names of which files to merge
-
-    Returns
-    -------
-    byte[]
-        The merged byte array
-
-    """
-    # TODO: Implement this
-    merged_bytes = bytearray()
-    for file in filenames:
-        merged_bytes += file
-    return merged_bytes
-
-
-def phile_upload(filename, key):
-    """
-
-    Takes a raw file and goes through the motions of converting said file into several PNGs, encrypting the data,
-    creating redundancies of the encrypted data, then finally uploading to Google Photos
-
-    Parameters
-    ----------
-    filename : string
-        The name of the file that will go through the phile uploading process
-    key : ???
-        The key used to encrypt the file into the version that it is
-
-    Returns
-    -------
-    (string, int)[]
-        Array of filename and filesize tuples in which the file was split into
-
-    """
-    philes_byte_arr, png_templates = split_file(filename)
     philes = []
-    png_templates_so_far = {}
-    for i in range(len(philes_byte_arr)):
-        phile_byte_arr, png_template = philes_byte_arr[i], png_templates[i]
-        png_filename = png_template[0]
-        if png_filename in png_templates_so_far.keys():
-            new_png_filename = png_filename[:len(png_filename) - 1] + str(png_templates_so_far[png_filename])
-            png_templates_so_far[png_filename] += 1
-        else:
-            new_png_filename = png_filename[:len(png_filename) - 1] + "0"
-            png_templates_so_far[png_filename] = 1
-        final_phile = write_to_png(phile_byte_arr, png_filename, new_png_filename)
-        philes.append((final_phile, png_template[1]))
-        upload_phile(final_phile)
+    start = 0
+    for skeleton in skeleton_imgs:
+        end = start + skeleton.size
+        philes.append(overwrite_bytes(skeleton, byte_chunks[start: end]))
+        start = end
 
     return philes
 
 
-def main():
+def download_random_img():
+    img_num = random.randint(1, NUM_SKELETONS)
+    img_name = f"{str(img_num)}.png"
+    if img_num < 10:
+        img_name = "0" + img_name
+
+    return get_image_matrix(f"{SKELETON_IMAGES_PATH}{img_name}")
+
+
+def write_philes(phile_matrices, original_file_name):
+    philenames = []
+    i = 0
+    for phile in phile_matrices:
+        name = f"{original_file_name}_{i}.png"
+        write_image_matrix(phile, name)
+        i += 1
+        philenames.append(name)
+    return philenames
+
+
+def file_to_phile(filename):
+    file_byte_chunks = get_split_bytes(get_bytes(filename))
+    phile_matrices = get_phile_matrices(file_byte_chunks)
+    philenames = write_philes(phile_matrices, filename)
+    return philenames
+
+
+# File download
+def extract_byte_chunk(byte):
+    return byte & 3
+
+
+def extract_chunks_from_phile(img_matrix):
+    byte_chunks = []
+    x, y, z = img_matrix.shape
+    for xi in range(x):
+        for yi in range(y):
+            for zi in range(z):
+                byte = img_matrix[xi][yi][zi]
+                byte_chunks.append(extract_byte_chunk(byte))
+    return byte_chunks
+
+
+def rechunk(byte_chunk_arr):
+    final_chunk_arr = []
+    for i in range(int(np.floor(len(byte_chunk_arr) / 4))):
+        quad1 = byte_chunk_arr[(4 * i)]
+        quad2 = byte_chunk_arr[(4 * i) + 1]
+        quad3 = byte_chunk_arr[(4 * i) + 2]
+        quad4 = byte_chunk_arr[(4 * i) + 3]
+
+        full_byte = (quad1 << 6) | (quad2 << 4) | (quad3 << 2) | (quad4)
+        final_chunk_arr.append(full_byte)
+
+    return final_chunk_arr
+
+
+def write_to_file(byte_arr, filename):
+    with open(filename, "w+b") as f:
+        f.write(bytearray(byte_arr))
+    return True
+
+
+def phile_to_file(phile_arr, filename=None):
+    if not filename:
+        filename = "_".join(phile_arr[0].split("_")[0: -1])
+
+    full_byte_arr = []
+
+    for phile in phile_arr:
+        img_matrix = get_image_matrix(phile)
+        file_chunks = extract_chunks_from_phile(img_matrix)
+        full_byte_arr.extend(file_chunks)
+
+    final_byte_arr = rechunk(full_byte_arr)
+    write_to_file(final_byte_arr, filename)
+    return True
+
+
+def get_index(album):
+    # TODO: Google API call. Should return the index number
     pass
+
+
+def get_dictionary(album):
+    # TODO: Google API call. Should return a dictionary mapping of the filesystem
+    pass
+
+
+# def upload_to_gp(philename, album, api_key):
+#     # TODO: Use Photos API to upload the phile to the album
+#     pass
+#
+#
+# def download_from_gp(philename, album, api_key):
+#     pass
+
+# TODO: Use Photos API to download the phile from the album
+
+
+def dict_to_json(dictionary):
+    with open('dict.json', 'w') as f:
+        json.dump(dictionary, f)
+    return True
+
+
+def json_to_dict(json_name):
+    with open(json_name) as f:
+        data = json.load(f)
+    return data
+
+
+def upload_philes(request):
+    request = request.get_json()
+    filenames = request["filenames"]
+    file_data = request["data"]
+    album_name = request["album"]
+    api_key = request["key"]
+
+    filesystem = {}
+
+    for filename in filenames:
+        write_to_file(file_data, filename)
+        philelist = file_to_phile(filename)
+        filesystem[filename] = philelist
+
+        for phile in philelist:
+            upload_to_gp(phile, album_name, api_key)
+
+    dict_to_json(filesystem, "dict.json")
+    dict_philes = file_to_phile("dict.json")
+
+    # for phile in dict_philes:
+    #     upload_to_gp(phile, album_name, api_key)
+
+    with open("index.txt", "w+") as f:
+        f.write(str(len(dict_philes)))
+
+    index = file_to_phile("index.txt")
+
+    # upload_to_gp(index, album_name, api_key)
+
+
+def download_phile(request):
+    request = request.get_json()
+    filename = request["filename"]
+    album_name = request["album"]
+    api_key = request["key"]
+
+    download_from_gp("index.txt_0.png", album_name, api_key)
+    phile_to_file(["index.txt_0.png"], "index.txt")
+
+    with open("index.txt") as f:
+        dict_num = int(f.read())
+
+    dict_philes = [f"dict.json_{i}.png" for i in range(dict_num)]
+    for phile in dict_philes:
+        download_from_gp(phile, album_name, api_key)
+
+    phile_to_file(dict_philes)
+
+    filesystem = json_to_dict("dict.json")
+
+    if filename not in filesystem:
+        return "Error! File not found :("
+
+    philenames = filesystem[filename]
+
+    for phile in philenames:
+        download_from_gp(phile, album_name, api_key)
+
+    phile_to_file(philenames)
+
+    return filename
