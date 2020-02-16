@@ -12,35 +12,34 @@ export default class Info extends React.Component {
     render(){
         return (
             <div style={styles.MainBar}>
-            <div style={styles.Title}>
-                <img src={BearLogo} style={styles.BigLogo}></img>
-                <h1 style={styles.BearBones}>Bear Bones Storage</h1>
-            </div>
-            <div style={styles.Explanation}>
-                <div style={styles.Photos}>
-                    <img src={GooglePhotosLogo} style={styles.PhotosLogo}></img>
+                <div style={styles.Title}>
+                    <img src={BearLogo} style={styles.BigLogo}></img>
+                    <h1 style={styles.BearBones}>Bear Bones Storage</h1>
                 </div>
-                <h2 style={styles.InfoHeader}>Unlimited File Storage</h2>
-                <p style={styles.InnerText}>Making use of the fact that google photos allows for unlimited storage, we've decided to exploit the fact that files can be embeded into photographs. <br /><br />We store our client's files in the google cloud through means of google photos, allowing us unlimited file storage. <br /><br />Essentially, We're dropbox but free.</p>
-                <h2 style={styles.InfoHeader}>The Technology</h2>
-                <h3 style={styles.TechHeader}>Backend</h3>
-                    <ul style={styles.TechList}>
-                        <li>API 1</li>
-                        <li>API 2</li>
-                        <li>API 3</li>
-                    </ul>
-                <h3 style={styles.TechHeader}>Frontend</h3>
-                    <ul style={styles.TechList}>
-                        <li>HTML 5</li>
-                        <li>CSS 3</li>
-                        <li>React.js</li>
-                    </ul>
-                <div style={styles.Photos}>
-                    <img src={GoogleLogo} style={styles.GoogleLogo}></img>
-                </div>
+                <div style={styles.Explanation}>
+                    <div style={styles.Photos}>
+                        <img src={GooglePhotosLogo} style={styles.PhotosLogo}></img>
+                    </div>
+                    <h2 style={styles.InfoHeader}>Unlimited File Storage</h2>
+                    <p style={styles.InnerText}>Making use of the fact that google photos allows for unlimited storage, we've decided to exploit the fact that files can be embeded into photographs. <br /><br />We store our client's files in the google cloud through means of google photos, allowing us unlimited file storage. <br /><br />Essentially, We're dropbox but free.</p>
+                    <h2 style={styles.InfoHeader}>The Technology</h2>
+                    <h3 style={styles.TechHeader}>Backend</h3>
+                        <ul style={styles.TechList}>
+                            <li>API 1</li>
+                            <li>API 2</li>
+                            <li>API 3</li>
+                        </ul>
+                    <h3 style={styles.TechHeader}>Frontend</h3>
+                        <ul style={styles.TechList}>
+                            <li>HTML 5</li>
+                            <li>CSS 3</li>
+                            <li>React.js</li>
+                        </ul>
+                    <div style={styles.Photos}>
+                        <img src={GoogleLogo} style={styles.GoogleLogo}></img>
+                    </div>
+                </div>       
             </div>
-                
-        </div>
         )
     }
 }

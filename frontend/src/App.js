@@ -26,17 +26,15 @@ export default class App extends React.Component {
     this.state = {
       user:null,
       loggedIn:false,
-      active: 1
+      active: 1,
     }
     this.store = new Store();
   }
-  componentDidMount(){
+  componentDidMount() {
+    // this simulates an async action, after which the component will render the content
     
   }
-  getInfo=(e)=>{
-    console.log(e);
-    this.help();
-  }
+
   display(){
     if(!this.state.loggedIn){
       return <GoogleLogin
