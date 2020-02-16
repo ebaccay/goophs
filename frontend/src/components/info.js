@@ -23,13 +23,13 @@ export default class Info extends React.Component {
                 <h2 style={styles.InfoHeader}>Unlimited File Storage</h2>
                 <p style={styles.InnerText}>Making use of the fact that google photos allows for unlimited storage, we've decided to exploit the fact that files can be embeded into photographs. <br /><br />We store our client's files in the google cloud through means of google photos, allowing us unlimited file storage. <br /><br />Essentially, We're dropbox but free.</p>
                 <h2 style={styles.InfoHeader}>The Technology</h2>
-                <h3 style={styles.TechHeader}>Backend:</h3>
+                <h3 style={styles.TechHeader}>Backend</h3>
                     <ul style={styles.TechList}>
                         <li>API 1</li>
                         <li>API 2</li>
                         <li>API 3</li>
                     </ul>
-                <h3 style={styles.TechHeader}>Frontend:</h3>
+                <h3 style={styles.TechHeader}>Frontend</h3>
                     <ul style={styles.TechList}>
                         <li>HTML 5</li>
                         <li>CSS 3</li>
@@ -50,13 +50,17 @@ let styles = {
         width: '100%',
         display: 'flex',
         flexDirection: 'column',
+        justifyContent: 'center',
         height: '100%',
-        marginLeft: '40px',
-        marginTop: '20px',
+        //paddingLeft: '40px',
+        //paddingTop: '20px',
+        //border: '2px solid green',
     },
         Title: {
             display: 'flex',
             alignItems: 'center',
+            paddingLeft: '40px',
+            paddingTop: '20px',
         },
             BigLogo: {
                 marginRight: '30px',
@@ -71,6 +75,8 @@ let styles = {
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'center',
+            alignItems: 'center',
+            //border: '2px solid green',
         },
             Photos: {
                 display: 'flex',
@@ -88,21 +94,24 @@ let styles = {
                 marginBottom: '22px',
             },
                 InnerText: {
-                    paddingLeft: '20px',
+                    //paddingLeft: '20px',
                     marginTop: '0px',
                     paddingTop: '0px',
                 },
             TechHeader: {
-                marginLeft: '20px',
+                //marginLeft: '20px',
                 marginTop: '0px',
                 paddingTop: '0px',
                 marginBottom: '12px',
                 borderBottom: '2px solid green',
                 width: '20%',
+                margin: 'auto',
             },
                 TechList: {
                     listStyle: 'none',
-                    marginTop: '0px',
+                    marginTop: '12px',
+                    marginLeft: '0px',
+                    paddingLeft: '0px',
                     paddingTop: '0px',
                     marginBottom: '10px',
                 },

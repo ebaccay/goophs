@@ -95,7 +95,17 @@ let styles = {
             width: '180px',
             height: '104px',
             marginBottom: '15px',
-        }
+        },
+    Photos: {
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+        PhotosLogo: {
+            width: '120px',
+            height: '120px',
+            marginRight: '20px',
+        },
 }
 
 /**
