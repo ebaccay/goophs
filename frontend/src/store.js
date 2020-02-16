@@ -1,11 +1,29 @@
 import React, { Component } from 'react';
 import axios, {post} from 'axios';
+const {Storage} = require('@google-cloud/storage');
 
 export default class Store  {
     state = {
         user: null,
         files: [{name: 'file.txt'},{name: 'file.png'},{name: 'file.jpg'},{name: 'file.jpeg'}],
         isLoggedIn: false
+    }
+    async initGCP(){
+        const storage = new Storage();
+
+        try {
+            // Makes an authenticated API request.
+            const results = await storage.getBuckets();
+
+            const [buckets] = results;
+
+            console.log('Buckets:');
+            buckets.forEach(bucket => {
+                console.log(bucket.name);
+            });
+        } catch (err) {
+            console.error('ERROR:', err);
+        }
     }
     fetchFiles = () => {
     //     return axios({

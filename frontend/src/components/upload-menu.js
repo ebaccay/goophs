@@ -43,7 +43,7 @@ export default class UploadMenu extends React.Component {
       }
     render(){
         return (
-            <div class="MainBar">
+            <div className="MainBar">
                 <div style={styles.UploadMenu}>
                     <div style={styles.Title}>
                         <img src={BearLogo} style={styles.BigLogo}></img>
