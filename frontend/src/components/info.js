@@ -25,9 +25,9 @@ export default class Info extends React.Component {
                     <h2 style={styles.InfoHeader}>The Technology</h2>
                     <h3 style={styles.TechHeader}>Backend</h3>
                         <ul style={styles.TechList}>
+                            <li>Google Photos</li>
                             <li>Google Cloud Platform</li>
-                            <li>LSB Steganography</li>
-                            <li>Jupyter</li>
+                            <li>Leat Bit Steganography</li>
                         </ul>
                     <h3 style={styles.TechHeader}>Frontend</h3>
                         <ul style={styles.TechList}>

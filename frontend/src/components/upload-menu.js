@@ -44,10 +44,18 @@ export default class UploadMenu extends React.Component {
         if (this.state.files != undefined){
             this.store.updateFiles(
                 this.state.files[0]
+                
              )
+             var nameForFile = this.state.files[0].name;
+            console.log(nameForFile);
+            this.store.addName(nameForFile);
+            if (Directory.store != undefined){
+                Directory.store.addName(nameForFile);
+            }
+            console.log(this.store.state.files);
         }
         //Auto Redirect Router
-        return <Route path="/files" component={Directory} />
+        //return <Route path="/files" component={Directory} />
       }
     render(){
         return (
@@ -75,7 +83,7 @@ export default class UploadMenu extends React.Component {
                 </div>
                 <div style={styles.InfoDiv}>
                     <Link to={{pathname:"/info", state: {loggedIn: this.state.loggedIn}}}  style={styles.InfoButton} href="#Info">About Us</Link>
-                </div>
+                        </div>
             </div>
         )
     }

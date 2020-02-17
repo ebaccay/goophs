@@ -24,6 +24,7 @@ export default class Directory extends React.Component {
     }
 
     render(){
+        console.log(this.store.state.files);
         return (
             <div style={styles.MainBar}>
                 <div style={styles.Title}>
